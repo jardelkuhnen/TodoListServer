@@ -58,6 +58,7 @@ public class OrderItemDTO {
         item.setIsFinished(orderItem.getIsFinished());
         item.setRegisterDate(orderItem.getRegisterDate());
         item.setUpdateDate(orderItem.getUpdateDate());
+        item.setOrderId(orderItem.getOrder().getId());
 
         return item;
     }
