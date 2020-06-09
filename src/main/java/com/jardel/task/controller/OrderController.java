@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @RestController
 @RequestMapping("/order")
@@ -51,6 +53,11 @@ public class OrderController {
 
         return ResponseEntity.ok(new Response("Sucessful to delete order!", String.valueOf(HttpStatus.OK.value())));
 
+    }
+
+    @PostMapping("bin-to-dec/{binario}")
+    public ResponseEntity transforBin2Decimal(@PathVariable @NotBlank String binario) throws Exception {
+        return ResponseEntity.ok(this.orderService.convertBinToDec(binario));
     }
 
 }
