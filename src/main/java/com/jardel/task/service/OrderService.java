@@ -12,10 +12,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class OrderService {
@@ -102,4 +105,24 @@ public class OrderService {
         return OrderDTO.of(order);
     }
 
+    public String convertBinToDec(String binario) throws Exception {
+
+        if(binario.length()> 8) {
+            throw new Exception("Input inválido. Informe apenas 8 caracters!");
+        }
+
+        String regex = "[^\0-1]";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(binario);
+
+        while(matcher.find()) {
+            throw new Exception("Dado informdo contém caracteres não validos: " + matcher.start());
+        }
+
+        Integer decimal = Integer.parseInt(binario, 2);
+
+        return decimal.toString();
+
+    }
 }
