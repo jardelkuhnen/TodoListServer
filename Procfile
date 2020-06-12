@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.tasks.TasksAppApplication
+web: java $JAVA_OPTS -cp target/tasks-app-*.jar
