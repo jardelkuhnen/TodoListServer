@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/tasks-app-*.jar
+web: java -jar -Dserver.port=$PORT target/*.jar
