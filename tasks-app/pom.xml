@@ -9,6 +9,8 @@
     <name>tasks-app</name>
     <description>Tasks Application App</description>
 
+    <packaging>jar</packaging>
+
     <properties>
         <java.version>1.8</java.version>
     </properties>
