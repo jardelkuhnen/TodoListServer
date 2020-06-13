@@ -75,8 +75,17 @@
                 <version>2.3.0.RELEASE</version>
                 <configuration>
                     <mainClass>com.tasks.TasksAppApplication</mainClass>
+                    <layout>JAR</layout>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
