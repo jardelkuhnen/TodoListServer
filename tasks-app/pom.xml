@@ -59,12 +59,25 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- START PROJECT DEPENDENCIES -->
+
         <dependency>
             <groupId>com.tasks</groupId>
             <artifactId>domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.tasks</groupId>
+            <artifactId>security</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- END PROJECT DEPENDENCIES -->
+
     </dependencies>
 
     <build>
