@@ -1,4 +1,4 @@
-package com.tasks.domain.enums;
+package com.tasks.security.enums;
 
 public enum RoleAccess {
 

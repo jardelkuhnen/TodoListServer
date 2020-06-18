@@ -1,7 +1,7 @@
 package com.tasks.security.utils;
 
-import com.tasks.domain.enums.RoleAccess;
-import com.tasks.domain.model.User;
+import com.tasks.security.enums.RoleAccess;
+import com.tasks.security.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

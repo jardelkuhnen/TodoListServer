@@ -10,4 +10,8 @@ public class NotFoundException extends Exception {
     public NotFoundException(Response response) {
         super(response.getMessage());
     }
+
+    public NotFoundException(String message) {
+        super(message);
+    }
 }

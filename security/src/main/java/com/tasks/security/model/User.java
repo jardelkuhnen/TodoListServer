@@ -1,7 +1,9 @@
-package com.tasks.domain.model;
+package com.tasks.security.model;
 
-import com.tasks.domain.enums.RoleAccess;
+import com.tasks.security.enums.RoleAccess;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,8 +12,10 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-@Table(name = "user")
-public class User implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "usuario")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

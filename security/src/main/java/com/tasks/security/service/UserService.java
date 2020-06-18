@@ -1,6 +1,5 @@
 package com.tasks.security.service;
 
-import com.tasks.domain.model.User;
 import com.tasks.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

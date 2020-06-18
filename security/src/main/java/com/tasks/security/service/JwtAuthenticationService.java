@@ -1,19 +1,19 @@
 package com.tasks.security.service;
 
+import com.tasks.domain.exception.NotFoundException;
 import com.tasks.security.dto.JwtAuthenticatoinDTO;
 import com.tasks.security.utils.JwtTokenUtils;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.Optional;
 
 @Service
 public class JwtAuthenticationService {
@@ -21,6 +21,9 @@ public class JwtAuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtils jwtTokenUtils;
+
+    private static final String TOKEN_HEADER = "Authorization";
+    private static final String BEARER_PREFIX = "Bearer ";
 
     @Autowired
     public JwtAuthenticationService(AuthenticationManager authenticationManager,
@@ -40,10 +43,27 @@ public class JwtAuthenticationService {
 
         String token = this.jwtTokenUtils.obterToken(userDetails);
 
-        if(StringUtils.isEmpty(token)) {
+        if (StringUtils.isEmpty(token)) {
             throw new Exception("Cannot generate valid token!");
         }
 
         return token;
+    }
+
+    public String refreshToken(String token) throws NotFoundException {
+
+        if (!StringUtils.isEmpty(token) && token.startsWith(BEARER_PREFIX)) {
+            token.substring(7);
+        }
+
+        if(!StringUtils.isEmpty(token)) {
+            throw new NotFoundException("Token não informado!");
+        }
+
+        if(!jwtTokenUtils.tokenValido(token)) {
+            throw new NotFoundException("Token inválido!");
+        }
+
+        return jwtTokenUtils.refreshToken(token);
     }
 }
