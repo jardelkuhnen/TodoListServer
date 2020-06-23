@@ -2,6 +2,7 @@ package com.tasks.security.service;
 
 import com.tasks.domain.exception.NotFoundException;
 import com.tasks.security.dto.JwtAuthenticatoinDTO;
+import com.tasks.security.dto.UserDTO;
 import com.tasks.security.utils.JwtTokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,14 +14,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Optional;
-
 @Service
 public class JwtAuthenticationService {
 
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtils jwtTokenUtils;
+    private final UserService userService;
 
     private static final String TOKEN_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
@@ -28,13 +28,14 @@ public class JwtAuthenticationService {
     @Autowired
     public JwtAuthenticationService(AuthenticationManager authenticationManager,
                                     UserDetailsService userDetailsService,
-                                    JwtTokenUtils jwtTokenUtils) {
+                                    JwtTokenUtils jwtTokenUtils, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtils = jwtTokenUtils;
+        this.userService = userService;
     }
 
-    public String generateToken(JwtAuthenticatoinDTO jwtAuthenticatoinDTO) throws Exception {
+    public UserDTO generateToken(JwtAuthenticatoinDTO jwtAuthenticatoinDTO) throws Exception {
 
         Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtAuthenticatoinDTO.getEmail(), jwtAuthenticatoinDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -47,16 +48,16 @@ public class JwtAuthenticationService {
             throw new Exception("Cannot generate valid token!");
         }
 
-        return token;
+        return UserDTO.of(token, this.userService.loadUserByEmail(jwtAuthenticatoinDTO.getEmail()));
     }
 
-    public String refreshToken(String token) throws NotFoundException {
+    public UserDTO refreshToken(String token, String userEmail) throws NotFoundException {
 
         if (!StringUtils.isEmpty(token) && token.startsWith(BEARER_PREFIX)) {
             token.substring(7);
         }
 
-        if(!StringUtils.isEmpty(token)) {
+        if(StringUtils.isEmpty(token)) {
             throw new NotFoundException("Token não informado!");
         }
 
@@ -64,6 +65,8 @@ public class JwtAuthenticationService {
             throw new NotFoundException("Token inválido!");
         }
 
-        return jwtTokenUtils.refreshToken(token);
+        token = jwtTokenUtils.refreshToken(token);
+
+        return UserDTO.of(token, this.userService.loadUserByEmail(userEmail));
     }
 }

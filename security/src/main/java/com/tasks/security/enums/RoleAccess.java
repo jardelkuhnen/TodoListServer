@@ -1,14 +1,19 @@
 package com.tasks.security.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum RoleAccess {
 
-    ROLE_ADMIN(0),
-    ROLE_USER(1),
-    ROLE_VISITOR(2);
+    ROLE_ADMIN(0, "ADMIN"),
+    ROLE_USER(1, "USER"),
+    ROLE_VISITOR(2, "VISITOR");
 
     private Integer ordinal;
+    private String description;
 
-    RoleAccess(Integer ordinal) {
+    RoleAccess(Integer ordinal, String description) {
         this.ordinal = ordinal;
+        this.description = description;
     }
 }

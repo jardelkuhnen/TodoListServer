@@ -4,7 +4,6 @@ import com.tasks.security.enums.RoleAccess;
 import com.tasks.security.model.User;
 import com.tasks.security.repository.UserRepository;
 import com.tasks.security.utils.SenhaUtils;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,12 +26,19 @@ public class TasksAppApplication {
     public CommandLineRunner runner() {
         return args -> {
 
-            User user = new User();
-            user.setEmail("jardel@email.com");
-            user.setPassword(SenhaUtils.gerarBCrypt("123456"));
-            user.setRole(RoleAccess.ROLE_ADMIN);
+            String userEmail = "jardel@email.com";
 
-            user = this.userRepository.save(user);
+            User user = this.userRepository.findByEmail(userEmail);
+
+            if (user == null) {
+                User newUser = new User();
+                newUser.setEmail(userEmail);
+                newUser.setPassword(SenhaUtils.gerarBCrypt("123456"));
+                newUser.setRole(RoleAccess.ROLE_ADMIN);
+
+                newUser = this.userRepository.save(newUser);
+            }
+
         };
     }
 }

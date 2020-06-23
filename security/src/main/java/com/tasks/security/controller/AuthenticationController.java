@@ -2,7 +2,8 @@ package com.tasks.security.controller;
 
 import com.tasks.domain.exception.NotFoundException;
 import com.tasks.security.dto.JwtAuthenticatoinDTO;
-import com.tasks.security.dto.TokenDTO;
+import com.tasks.security.dto.RefreshTokenDTO;
+import com.tasks.security.dto.UserDTO;
 import com.tasks.security.service.JwtAuthenticationService;
 import com.tasks.security.utils.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -29,14 +30,14 @@ public class AuthenticationController {
     }
 
     @PostMapping
-    public ResponseEntity<Response<TokenDTO>> generateToken(@Valid @RequestBody JwtAuthenticatoinDTO jwtAuthenticatoinDTO) throws Exception {
+    public ResponseEntity<Response<UserDTO>> generateToken(@Valid @RequestBody JwtAuthenticatoinDTO jwtAuthenticatoinDTO) throws Exception {
 
         log.info("Gerando token para o email {}.", jwtAuthenticatoinDTO.getEmail());
 
-        String token = this.jwtAuthenticationService.generateToken(jwtAuthenticatoinDTO);
+        UserDTO userDTO = this.jwtAuthenticationService.generateToken(jwtAuthenticatoinDTO);
 
         Response response = new Response();
-        response.setData(new TokenDTO(token));
+        response.setData(userDTO);
 
         return ResponseEntity.ok(response);
     }
@@ -49,13 +50,12 @@ public class AuthenticationController {
      * @throws NotFoundException
      */
     @PostMapping(value = "/refresh")
-    public ResponseEntity<Response<TokenDTO>> gerarRefreshTokenJwt(HttpServletRequest request) throws NotFoundException {
+    public ResponseEntity<Response<UserDTO>> gerarRefreshTokenJwt(@RequestBody RefreshTokenDTO refreshTokenDTO, HttpServletRequest request) throws NotFoundException {
 
-        Response<TokenDTO> response = new Response<TokenDTO>();
+        Response<UserDTO> response = new Response<UserDTO>();
 
-        String token = this.jwtAuthenticationService.refreshToken(request.getHeader(TOKEN_HEADER));
-
-        response.setData(new TokenDTO(token));
+        UserDTO userDTO = this.jwtAuthenticationService.refreshToken(request.getHeader(TOKEN_HEADER), refreshTokenDTO.getEmail());
+        response.setData(userDTO);
 
         return ResponseEntity.ok(response);
     }
