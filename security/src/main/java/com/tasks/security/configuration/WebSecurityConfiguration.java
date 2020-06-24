@@ -57,13 +57,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         /**
          * Configurando authentication e liberando apenas para urls /auth
          */
-
-
-        //Configuration to use ssl in Heroku
-        http.requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-                .requiresSecure();
-
-
         http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .csrf().disable()
@@ -74,6 +67,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
         http.headers().cacheControl();
+
+        //Configuration to use ssl in Heroku
+        http.requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+                .requiresSecure();
 
     }
 }
