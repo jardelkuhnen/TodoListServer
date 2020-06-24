@@ -37,6 +37,9 @@ public class Order {
     @Column
     private LocalDateTime updateDate;
 
+    @Column
+    private Long userId;
+
     @OneToMany(mappedBy = "order")
     private List<OrderItem> itens;
 

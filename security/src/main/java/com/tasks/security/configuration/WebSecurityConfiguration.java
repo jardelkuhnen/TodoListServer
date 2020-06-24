@@ -5,6 +5,7 @@ import com.tasks.security.utils.JwtAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -56,9 +57,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         /**
          * Configurando authentication e liberando apenas para urls /auth
          */
-        http.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers("/auth/**").permitAll().anyRequest().authenticated();
+        http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/auth/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .anyRequest().authenticated();
 
         http.addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
         http.headers().cacheControl();

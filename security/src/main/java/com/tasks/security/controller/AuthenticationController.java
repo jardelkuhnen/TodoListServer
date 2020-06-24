@@ -1,11 +1,9 @@
 package com.tasks.security.controller;
 
 import com.tasks.domain.exception.NotFoundException;
-import com.tasks.security.dto.JwtAuthenticatoinDTO;
-import com.tasks.security.dto.RefreshTokenDTO;
-import com.tasks.security.dto.UserDTO;
+import com.tasks.security.dto.*;
 import com.tasks.security.service.JwtAuthenticationService;
-import com.tasks.security.utils.Response;
+import com.tasks.security.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,23 +21,24 @@ public class AuthenticationController {
     private static final String TOKEN_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
     private final JwtAuthenticationService jwtAuthenticationService;
+    private final UserService userService;
 
     @Autowired
-    public AuthenticationController(JwtAuthenticationService jwtAuthenticationService) {
+    public AuthenticationController(JwtAuthenticationService jwtAuthenticationService,
+                                    UserService userService) {
         this.jwtAuthenticationService = jwtAuthenticationService;
+        this.userService = userService;
     }
 
     @PostMapping
-    public ResponseEntity<Response<UserDTO>> generateToken(@Valid @RequestBody JwtAuthenticatoinDTO jwtAuthenticatoinDTO) throws Exception {
+    public ResponseEntity<UserDTO> generateToken(@Valid @RequestBody JwtAuthenticatoinDTO jwtAuthenticatoinDTO) throws Exception {
 
         log.info("Gerando token para o email {}.", jwtAuthenticatoinDTO.getEmail());
 
         UserDTO userDTO = this.jwtAuthenticationService.generateToken(jwtAuthenticatoinDTO);
 
-        Response response = new Response();
-        response.setData(userDTO);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(userDTO);
     }
 
     /**
@@ -50,14 +49,41 @@ public class AuthenticationController {
      * @throws NotFoundException
      */
     @PostMapping(value = "/refresh")
-    public ResponseEntity<Response<UserDTO>> gerarRefreshTokenJwt(@RequestBody RefreshTokenDTO refreshTokenDTO, HttpServletRequest request) throws NotFoundException {
-
-        Response<UserDTO> response = new Response<UserDTO>();
+    public ResponseEntity<UserDTO> gerarRefreshTokenJwt(@RequestBody RefreshTokenDTO refreshTokenDTO, HttpServletRequest request) throws NotFoundException {
 
         UserDTO userDTO = this.jwtAuthenticationService.refreshToken(request.getHeader(TOKEN_HEADER), refreshTokenDTO.getEmail());
-        response.setData(userDTO);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(userDTO);
+    }
+
+    /**
+     * Register new user
+     *
+     * @param registerUserDTO
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/register")
+    public ResponseEntity<UserDTO> registerUser(@RequestBody RegisterUserDTO registerUserDTO) throws Exception {
+
+        UserDTO userDTO = this.userService.registerUser(registerUserDTO);
+
+        return ResponseEntity.ok(userDTO);
+    }
+
+    /**
+     * Reset password of user registered
+     *
+     * @param resetPasswordDTO
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/reset")
+    public ResponseEntity<UserDTO> resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) throws Exception {
+
+        UserDTO userDTO = this.userService.resetPassword(resetPasswordDTO);
+
+        return ResponseEntity.ok(userDTO);
     }
 
 }

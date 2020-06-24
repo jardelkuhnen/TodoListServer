@@ -29,4 +29,11 @@ public class UserDTO {
                 .token(token).build();
 
     }
+
+    public static UserDTO of(User user) {
+        return UserDTO.builder()
+                .email(user.getEmail())
+                .role(user.getRole().toString())
+                .build();
+    }
 }
