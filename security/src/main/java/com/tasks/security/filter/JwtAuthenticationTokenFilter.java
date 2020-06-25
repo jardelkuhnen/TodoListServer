@@ -1,6 +1,7 @@
 package com.tasks.security.filter;
 
 import com.tasks.security.utils.JwtTokenUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
+@Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     private static final String AUTH_HEADER = "Authorization";
@@ -30,6 +32,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+
+        log.info("Executando doFilterInternal ");
 
         String token = request.getHeader(AUTH_HEADER);
 
