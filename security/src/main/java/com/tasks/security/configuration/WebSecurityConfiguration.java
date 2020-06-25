@@ -60,13 +60,20 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         /**
          * Configurando authentication e liberando apenas para urls /auth
          */
-        http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .csrf().disable()
-                .authorizeRequests()
+//        http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/auth/**").permitAll()
+//                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                .anyRequest().authenticated();
+
+
+                http.authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers("/order/url-magica-maluca").permitAll()
                 .anyRequest().authenticated();
+
 
         http.addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
         http.headers().cacheControl();
