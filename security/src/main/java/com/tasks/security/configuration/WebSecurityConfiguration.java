@@ -69,7 +69,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated();
 
 
-                http.authorizeRequests().antMatchers("/**").permitAll();
+                http.csrf().disable().authorizeRequests().antMatchers("/**").permitAll();
 //                .antMatchers("/login/**").permitAll()
 //                .antMatchers("/order/url-magica-maluca").permitAll()
 //                .anyRequest().authenticated();
