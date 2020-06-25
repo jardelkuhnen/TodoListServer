@@ -70,17 +70,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
                 http.authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/login/**").permitAll()
                 .antMatchers("/order/url-magica-maluca").permitAll()
                 .anyRequest().authenticated();
 
-
-        http.addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-        http.headers().cacheControl();
-
-        //Configuration to use ssl in Heroku
-        http.requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-                .requiresSecure();
+//
+//        http.addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+//        http.headers().cacheControl();
+//
+//        //Configuration to use ssl in Heroku
+//        http.requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+//                .requiresSecure();
 
     }
 }

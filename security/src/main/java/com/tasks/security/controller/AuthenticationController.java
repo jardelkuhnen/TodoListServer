@@ -14,7 +14,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/login")
 @CrossOrigin(origins = "*")
 public class AuthenticationController {
 
@@ -33,7 +33,7 @@ public class AuthenticationController {
     @PostMapping
     public ResponseEntity<UserDTO> generateToken(@Valid @RequestBody JwtAuthenticatoinDTO jwtAuthenticatoinDTO) throws Exception {
 
-        log.info("Gerando token para o email {}.", jwtAuthenticatoinDTO.getEmail());
+        log.info("Gerando token para o email {}.", jwtAuthenticatoinDTO.getUsername());
 
         UserDTO userDTO = this.jwtAuthenticationService.generateToken(jwtAuthenticatoinDTO);
 

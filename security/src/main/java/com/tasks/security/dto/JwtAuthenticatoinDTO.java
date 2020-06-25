@@ -14,7 +14,7 @@ public class JwtAuthenticatoinDTO {
 
     @NotEmpty(message = "Email cannot be empty!")
     @Email(message = "Email not valid!")
-    private String email;
+    private String username;
 
     @NotEmpty(message = "Password cannot be empty!")
     private String password;
