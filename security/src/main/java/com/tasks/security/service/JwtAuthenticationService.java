@@ -37,10 +37,10 @@ public class JwtAuthenticationService {
 
     public UserDTO generateToken(JwtAuthenticatoinDTO jwtAuthenticatoinDTO) throws Exception {
 
-        Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtAuthenticatoinDTO.getUsername(), jwtAuthenticatoinDTO.getPassword()));
+        Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtAuthenticatoinDTO.getEmail(), jwtAuthenticatoinDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtAuthenticatoinDTO.getUsername());
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtAuthenticatoinDTO.getEmail());
 
         String token = this.jwtTokenUtils.obterToken(userDetails);
 
@@ -48,7 +48,7 @@ public class JwtAuthenticationService {
             throw new Exception("Cannot generate valid token!");
         }
 
-        return UserDTO.of(token, this.userService.loadUserByEmail(jwtAuthenticatoinDTO.getUsername()));
+        return UserDTO.of(token, this.userService.loadUserByEmail(jwtAuthenticatoinDTO.getEmail()));
     }
 
     public UserDTO refreshToken(String token, String userEmail) throws NotFoundException {
