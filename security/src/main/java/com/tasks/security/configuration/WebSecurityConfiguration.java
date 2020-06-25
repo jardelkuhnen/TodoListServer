@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -58,29 +57,27 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         /**
+         * Configurando exception to throw caso nao autenticado
+         */
+        http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        /**
          * Configurando authentication e liberando apenas para urls /auth
          */
-//        http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//                .csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/auth/**").permitAll()
-//                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-//                .anyRequest().authenticated();
+        http.csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/auth/**").permitAll()
+            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            .anyRequest().authenticated();
 
 
-                http.csrf().disable().authorizeRequests().antMatchers("/**").permitAll();
-//                .antMatchers("/login/**").permitAll()
-//                .antMatchers("/order/url-magica-maluca").permitAll()
-//                .anyRequest().authenticated();
+        http.addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+        http.headers().cacheControl();
 
-//
-//        http.addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-//        http.headers().cacheControl();
-//
+
 //        //Configuration to use ssl in Heroku
 //        http.requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
 //                .requiresSecure();
-
     }
 }
