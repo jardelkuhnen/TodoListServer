@@ -56,36 +56,63 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.anonymous().authorities("ROLE_ANONYMOUS");
+//        http.anonymous().authorities("ROLE_ANONYMOUS");
+//
+//        /**
+//         * Configurando exception to throw caso nao autenticado
+//         */
+//        http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
+//        /**
+//         * Configurando authentication e liberando apenas para urls /auth
+//         */
+//        http.csrf().disable()
+//            .authorizeRequests()
+//            .antMatchers("/auth/**").permitAll()
+//            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//            .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
+//            .anyRequest().authenticated();
+//
+//
+//        http.addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+//        http.headers().cacheControl();
+//
+//        /**
+//         * Configuration for heroku conforme documentation:
+//         *
+//         * https://devcenter.heroku.com/articles/preparing-a-spring-boot-app-for-production-on-heroku
+//         */
+//        http.requiresChannel()
+//                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+//                .requiresSecure();
+//
+//
+//
+//
 
-        /**
-         * Configurando exception to throw caso nao autenticado
-         */
-        http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        /**
-         * Configurando authentication e liberando apenas para urls /auth
-         */
-        http.csrf().disable()
-            .authorizeRequests()
-            .antMatchers("/auth/**").permitAll()
-            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
-            .anyRequest().authenticated();
 
 
-        http.addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-        http.headers().cacheControl();
 
-        /**
-         * Configuration for heroku conforme documentation:
-         *
-         * https://devcenter.heroku.com/articles/preparing-a-spring-boot-app-for-production-on-heroku
-         */
-        http.requiresChannel()
-                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-                .requiresSecure();
+
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/auth/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+
+
+
+
+
+
+
+
+
 
     }
 }
