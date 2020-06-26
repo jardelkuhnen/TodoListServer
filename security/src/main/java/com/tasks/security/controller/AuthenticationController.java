@@ -16,7 +16,6 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/auth")
-@Secured("ROLE_ANONYMOUS")
 @CrossOrigin(origins = "*")
 public class AuthenticationController {
 
