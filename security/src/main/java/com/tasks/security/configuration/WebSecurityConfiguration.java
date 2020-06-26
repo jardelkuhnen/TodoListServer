@@ -78,9 +78,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
         http.headers().cacheControl();
 
+        /**
+         * Configuration for heroku conforme documentation:
+         *
+         * https://devcenter.heroku.com/articles/preparing-a-spring-boot-app-for-production-on-heroku
+         */
+        http.requiresChannel()
+                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+                .requiresSecure();
 
-//        //Configuration to use ssl in Heroku
-//        http.requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-//                .requiresSecure();
     }
 }
