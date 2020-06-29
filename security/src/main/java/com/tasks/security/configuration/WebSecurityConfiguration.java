@@ -60,8 +60,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         log.info("configure http jardel ");
 
-        http.anonymous().authorities("ROLE_ANONYMOUS");
-
         /**
          * Configurando exception to throw caso nao autenticado
          */
