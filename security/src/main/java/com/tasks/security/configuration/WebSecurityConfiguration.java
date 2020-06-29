@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Slf4j
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -39,12 +39,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
+        log.info("getPasswordEncoder jardel ");
         return new BCryptPasswordEncoder();
     }
 
     @Override
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
+        log.info("authenticationManager jardel ");
         return super.authenticationManager();
     }
 
@@ -55,6 +57,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        log.info("configure http jardel ");
 
         http.anonymous().authorities("ROLE_ANONYMOUS");
 
@@ -86,27 +90,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.requiresChannel()
                 .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
                 .requiresSecure();
-
-
-//
-
-//
-//        http.cors().and().csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/auth*").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin().loginPage("/login")
-//                .defaultSuccessUrl("/", true)
-//                .permitAll()
-//                .and()
-//                .httpBasic()
-//                .and()
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-
-
     }
 }
