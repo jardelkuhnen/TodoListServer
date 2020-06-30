@@ -1,5 +1,6 @@
 package com.tasks.security.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
 public class JwtAuthenticatoinDTO {
 
     @NotEmpty(message = "Email cannot be empty!")

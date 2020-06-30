@@ -4,6 +4,7 @@ import com.tasks.domain.exception.NotFoundException;
 import com.tasks.security.dto.JwtAuthenticatoinDTO;
 import com.tasks.security.dto.UserDTO;
 import com.tasks.security.utils.JwtTokenUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+@Slf4j
 @Service
 public class JwtAuthenticationService {
 
@@ -36,6 +38,8 @@ public class JwtAuthenticationService {
     }
 
     public UserDTO generateToken(JwtAuthenticatoinDTO jwtAuthenticatoinDTO) throws Exception {
+
+        log.info("Gerando um novo token");
 
         Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtAuthenticatoinDTO.getEmail(), jwtAuthenticatoinDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
