@@ -1,0 +1,7 @@
+Para realizar o deploy do jar no heroku é necessário ter um arquino no diretorio raiz chamado Procfile com o comando necessário para ser rodar seu jar após o build.
+
+Ex:
+
+    web: java -Dserver.port=$PORT $JAVA_OPTS -jar tasks-app/target/*.jar
+
+Inserir o comando acima para informar o heroku qual arquivo será executado.

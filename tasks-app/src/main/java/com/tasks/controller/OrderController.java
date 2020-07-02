@@ -59,4 +59,9 @@ public class OrderController {
         return ResponseEntity.ok(this.orderService.convertBinToDec(binario));
     }
 
+    @GetMapping("/url-magica-maluca")
+    public ResponseEntity urlMagica() {
+        return ResponseEntity.ok("Url mágica retorno");
+    }
+
 }

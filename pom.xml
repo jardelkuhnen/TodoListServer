@@ -11,6 +11,7 @@
 	<modules>
 		<module>domain</module>
 		<module>tasks-app</module>
+		<module>security</module>
 	</modules>
 
 	<name>tasks</name>
