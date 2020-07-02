@@ -33,20 +33,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        log.info("configureAuthentication jardel ");
         authenticationManagerBuilder.userDetailsService(this.userDetailsService).passwordEncoder(getPasswordEncoder());
     }
-
     @Bean
     public PasswordEncoder getPasswordEncoder() {
-        log.info("getPasswordEncoder jardel ");
         return new BCryptPasswordEncoder();
     }
-
     @Override
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
-        log.info("authenticationManager jardel ");
         return super.authenticationManager();
     }
 
@@ -58,41 +53,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-//        log.info("configure http jardel ");
-//
-//        /**
-//         * Configurando exception to throw caso nao autenticado
-//         */
-//        http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//        /**
-//         * Configurando authentication e liberando apenas para urls /auth
-//         */
-//        http.cors().and().csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/auth*").permitAll()
-//                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/auth*").permitAll()
-//                .anyRequest().authenticated();
-//
-//
-//        http.addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-//        http.headers().cacheControl();
-//
-//        /**
-//         * Configuration for heroku conforme documentation:
-//         *
-//         * https://devcenter.heroku.com/articles/preparing-a-spring-boot-app-for-production-on-heroku
-//         */
-//        http.requiresChannel()
-//                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-//                .requiresSecure();
-
-
         http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers("/auth/**").permitAll().anyRequest().authenticated();
+                .antMatchers("/auth**").permitAll().anyRequest().authenticated();
         http.addFilterBefore(authenticatonTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
         http.headers().cacheControl();
 
