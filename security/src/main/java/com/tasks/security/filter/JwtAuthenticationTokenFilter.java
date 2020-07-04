@@ -1,5 +1,6 @@
 package com.tasks.security.filter;
 
+import com.tasks.domain.service.SystemUtilsService;
 import com.tasks.security.utils.JwtTokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtils jwtTokenUtils;
 
+    @Autowired
+    private SystemUtilsService systemUtilsService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
@@ -63,6 +67,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+                this.systemUtilsService.registerUser(userDetails.getUsername());
 
             }
 

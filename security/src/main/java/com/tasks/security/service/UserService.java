@@ -1,11 +1,11 @@
 package com.tasks.security.service;
 
-import com.tasks.domain.exception.NotFoundException;
 import com.tasks.security.dto.RegisterUserDTO;
 import com.tasks.security.dto.ResetPasswordDTO;
-import com.tasks.security.dto.UserDTO;
-import com.tasks.security.model.User;
-import com.tasks.security.repository.UserRepository;
+import com.tasks.domain.dto.UserDTO;
+import com.tasks.domain.exception.NotFoundException;
+import com.tasks.domain.model.User;
+import com.tasks.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -59,7 +59,7 @@ public class UserService {
 
         User user = this.userRepository.findByEmail(resetPasswordDTO.getEmail());
 
-        if(Objects.isNull(user)) {
+        if (Objects.isNull(user)) {
             throw new NotFoundException("User not found!");
         }
 
@@ -75,6 +75,19 @@ public class UserService {
         if (!resetPasswordDTO.getPassword().equalsIgnoreCase(resetPasswordDTO.getConfirmPassword())) {
             throw new Exception("Passwords are not equal!");
         }
+
+    }
+
+    public void registerUserLoged(String username) {
+
+        User user = this.userRepository.findByEmail(username);
+
+        if (user == null) {
+            throw new NotFoundException("User not found wiht email: " + username);
+        }
+
+        System.setProperty("userLoggedName", user.getEmail());
+        System.setProperty("userLoggedId", user.getId().toString());
 
     }
 }

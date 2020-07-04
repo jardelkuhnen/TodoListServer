@@ -1,6 +1,6 @@
-package com.tasks.security.dto;
+package com.tasks.domain.dto;
 
-import com.tasks.security.model.User;
+import com.tasks.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

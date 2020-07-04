@@ -1,6 +1,8 @@
 package com.tasks.domain.service;
 
 import com.tasks.domain.dto.OrderDTO;
+import com.tasks.domain.dto.UserLogged;
+import com.tasks.domain.enums.RoleAccess;
 import com.tasks.domain.exception.NotFoundException;
 import com.tasks.domain.model.Order;
 import com.tasks.domain.model.OrderItem;
@@ -24,12 +26,15 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderItemService orderItemService;
-
+    private final SystemUtilsService systemUtilsService;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, OrderItemService orderItemService) {
+    public OrderService(OrderRepository orderRepository,
+                        OrderItemService orderItemService,
+                        SystemUtilsService systemUtilsService) {
         this.orderRepository = orderRepository;
         this.orderItemService = orderItemService;
+        this.systemUtilsService = systemUtilsService;
     }
 
     @Transactional
@@ -42,6 +47,7 @@ public class OrderService {
         Order order = OrderDTO.of(orderDTO);
 
         order.setRegisterDate(LocalDateTime.now());
+        order.setUserId(this.systemUtilsService.getUserLogged().getId());
 
         order = this.orderRepository.save(order);
 
@@ -52,7 +58,14 @@ public class OrderService {
     }
 
     public Page<OrderDTO> getAll(Pageable pageable) {
-        return this.orderRepository.findAll(pageable).map(OrderDTO::of);
+
+        UserLogged userLogged = this.systemUtilsService.getUserLogged();
+
+        if(RoleAccess.ROLE_ADMIN == userLogged.getRole()) {
+            return this.orderRepository.findAll(pageable).map(OrderDTO::of);
+        }
+
+        return this.orderRepository.findByUserId(userLogged.getId(), pageable);
     }
 
     @Transactional
@@ -92,8 +105,8 @@ public class OrderService {
         this.orderRepository.delete(order);
     }
 
-    public OrderDTO getById(Integer id) throws NotFoundException {
-        Optional<Order> orderOptional = this.orderRepository.findById(id);
+    public OrderDTO getById(Integer orderId) throws NotFoundException {
+        Optional<Order> orderOptional = this.orderRepository.findByIdAndUserId(orderId, this.systemUtilsService.getUserLogged().getId());
 
         if (!orderOptional.isPresent()) {
             throw new NotFoundException(new Response("Order not found!", String.valueOf(HttpStatus.NOT_FOUND.value())));

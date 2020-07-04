@@ -1,7 +1,7 @@
 package com.tasks.security.service;
 
-import com.tasks.security.model.User;
-import com.tasks.security.repository.UserRepository;
+import com.tasks.domain.model.User;
+import com.tasks.domain.repository.UserRepository;
 import com.tasks.security.utils.JwtUserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
