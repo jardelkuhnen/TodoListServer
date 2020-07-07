@@ -90,4 +90,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(userDTO);
     }
 
+    @GetMapping(value = "register/confirm{token}")
+    public ResponseEntity confirmRegistration(@RequestParam String token) {
+
+        this.userService.validateToken(token);
+
+        return ResponseEntity.ok().build();
+    }
 }

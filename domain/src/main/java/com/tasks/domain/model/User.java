@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -29,5 +30,17 @@ public class User {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "role", nullable = false)
     private RoleAccess role;
+
+    @Column
+    private Boolean isValidated;
+
+    @Column
+    private Boolean isActive;
+
+    @Column
+    private LocalDateTime registerDate;
+
+    @Column
+    private LocalDateTime updateDate;
 
 }

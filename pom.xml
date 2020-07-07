@@ -10,8 +10,9 @@
 
 	<modules>
 		<module>domain</module>
-		<module>tasks-app</module>
+		<module>emailsender</module>
 		<module>security</module>
+		<module>tasks-app</module>
 	</modules>
 
 	<name>tasks</name>
