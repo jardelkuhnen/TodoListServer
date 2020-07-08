@@ -53,7 +53,7 @@ public class SendEmailService {
 
     private Session configureSession() {
 
-        Properties props = new Properties();
+        Properties props = System.getProperties();
 
         /** Parâmetros de conexão com servidor Gmail */
         props.put("mail.smtp.host", "smtp.gmail.com");
