@@ -77,16 +77,17 @@ public class UserService {
         this.validateEmailRegistered(registerUserDTO);
 
         User user = RegisterUserDTO.of(registerUserDTO);
-        user.setIsActive(false);
+        user.setIsActive(true);
+        user.setIsValidated(true);
         user.setRegisterDate(LocalDateTime.now());
 
         user = this.userRepository.save(user);
 
-        this.validExistsSolicitacaoToken(user.getId());
-
-        SolicitacaoToken solicitationToken = this.saveSolicitationToken(user);
-
-        this.sendConfirmEmailToken(solicitationToken.getToken(), solicitationToken.getExpirationDate(), user.getEmail());
+//        this.validExistsSolicitacaoToken(user.getId());
+//
+//        SolicitacaoToken solicitationToken = this.saveSolicitationToken(user);
+//
+//        this.sendConfirmEmailToken(solicitationToken.getToken(), solicitationToken.getExpirationDate(), user.getEmail());
 
 //        this.sendEmailInformation(user);
 

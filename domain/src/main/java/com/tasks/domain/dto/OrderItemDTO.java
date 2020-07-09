@@ -31,6 +31,8 @@ public class OrderItemDTO {
 
     private Integer orderId;
 
+    private Double price;
+
     public static List<OrderItem> off(List<OrderItemDTO> orderItensDTO) {
         return orderItensDTO.stream().map(OrderItemDTO::of).collect(Collectors.toList());
     }
@@ -46,6 +48,7 @@ public class OrderItemDTO {
         item.setIsFinished(orderItemDTO.getIsFinished());
         item.setRegisterDate(orderItemDTO.getRegisterDate());
         item.setUpdateDate(orderItemDTO.getUpdateDate());
+        item.setPrice(orderItemDTO.getPrice());
 
         return item;
     }
@@ -59,6 +62,7 @@ public class OrderItemDTO {
         item.setRegisterDate(orderItem.getRegisterDate());
         item.setUpdateDate(orderItem.getUpdateDate());
         item.setOrderId(orderItem.getOrder().getId());
+        item.setPrice(orderItem.getPrice());
 
         return item;
     }
@@ -71,6 +75,7 @@ public class OrderItemDTO {
         item.setIsFinished(orderItemDTO.getIsFinished());
         item.setRegisterDate(orderItemDTO.getRegisterDate());
         item.setUpdateDate(orderItemDTO.getUpdateDate());
+        item.setPrice(orderItemDTO.getPrice());
         item.setOrder(order);
 
         return item;
