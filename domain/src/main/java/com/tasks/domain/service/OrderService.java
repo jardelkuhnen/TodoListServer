@@ -111,7 +111,7 @@ public class OrderService {
 
         Order order;
 
-        if(RoleAccess.ROLE_ADMIN.name().equals(userLogged.getRole())) {
+        if(RoleAccess.ROLE_ADMIN.equals(userLogged.getRole())) {
             order = this.orderRepository.findById(orderId).get();
         } else {
             order = this.orderRepository.findByIdAndUserId(orderId, userLogged.getId());
