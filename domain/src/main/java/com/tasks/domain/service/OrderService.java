@@ -106,13 +106,21 @@ public class OrderService {
     }
 
     public OrderDTO getById(Integer orderId) throws NotFoundException {
-        Optional<Order> orderOptional = this.orderRepository.findByIdAndUserId(orderId, this.systemUtilsService.getUserLogged().getId());
 
-        if (!orderOptional.isPresent()) {
+        UserLogged userLogged = this.systemUtilsService.getUserLogged();
+
+        Order order;
+
+        if(RoleAccess.ROLE_ADMIN.name().equals(userLogged.getRole())) {
+            order = this.orderRepository.findById(orderId).get();
+        } else {
+            order = this.orderRepository.findByIdAndUserId(orderId, userLogged.getId());
+        }
+
+        if (order == null) {
             throw new NotFoundException(new Response("Order not found!", String.valueOf(HttpStatus.NOT_FOUND.value())));
         }
 
-        Order order = orderOptional.get();
 
         return OrderDTO.of(order);
     }
