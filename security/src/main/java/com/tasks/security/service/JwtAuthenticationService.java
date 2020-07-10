@@ -2,7 +2,7 @@ package com.tasks.security.service;
 
 import com.tasks.domain.exception.NotFoundException;
 import com.tasks.security.dto.JwtAuthenticatoinDTO;
-import com.tasks.security.dto.UserDTO;
+import com.tasks.domain.dto.UserDTO;
 import com.tasks.security.utils.JwtTokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

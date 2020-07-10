@@ -1,4 +1,4 @@
-package com.tasks.security.enums;
+package com.tasks.domain.enums;
 
 import lombok.Getter;
 

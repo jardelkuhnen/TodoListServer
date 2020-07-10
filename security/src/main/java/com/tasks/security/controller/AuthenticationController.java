@@ -1,9 +1,13 @@
 package com.tasks.security.controller;
 
+import com.tasks.domain.dto.UserDTO;
 import com.tasks.domain.exception.NotFoundException;
-import com.tasks.security.dto.*;
-import com.tasks.security.service.JwtAuthenticationService;
+import com.tasks.security.dto.JwtAuthenticatoinDTO;
+import com.tasks.security.dto.RefreshTokenDTO;
+import com.tasks.security.dto.RegisterUserDTO;
+import com.tasks.security.dto.ResetPasswordDTO;
 import com.tasks.security.service.UserService;
+import com.tasks.security.service.JwtAuthenticationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -86,4 +90,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(userDTO);
     }
 
+    @GetMapping(value = "register/confirm{token}")
+    public ResponseEntity confirmRegistration(@RequestParam String token) {
+
+        this.userService.validateToken(token);
+
+        return ResponseEntity.ok().build();
+    }
 }

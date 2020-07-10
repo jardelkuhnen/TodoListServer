@@ -38,7 +38,7 @@ public class JwtTokenUtils {
      * @param token
      * @return String
      */
-    public String getUsernameFromToken(String token) {
+    public String  getUsernameFromToken(String token) {
         String username;
 
         try {

@@ -32,9 +32,11 @@ public class OrderItem {
     @Column
     private LocalDateTime updateDate;
 
+    @Column
+    private Double price;
+
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
-
 
 }

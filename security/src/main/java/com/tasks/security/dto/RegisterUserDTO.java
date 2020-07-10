@@ -1,7 +1,7 @@
 package com.tasks.security.dto;
 
-import com.tasks.security.enums.RoleAccess;
-import com.tasks.security.model.User;
+import com.tasks.domain.enums.RoleAccess;
+import com.tasks.domain.model.User;
 import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -28,7 +28,7 @@ public class RegisterUserDTO {
         User user = new User();
         user.setEmail(registerUserDTO.getEmail());
         user.setPassword(new BCryptPasswordEncoder().encode(registerUserDTO.getPassword()));
-        user.setRole(RoleAccess.valueOf("ROLE_"+ registerUserDTO.getRole().toUpperCase()));
+        user.setRole(RoleAccess.valueOf("ROLE_" + registerUserDTO.getRole().toUpperCase()));
 
         return user;
     }
