@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class TasksAppApplication  {
 
     public static void main(String[] args) {
+        System.out.println("Rodando a aplicação TaskApp");
         SpringApplication.run(TasksAppApplication.class, args);
     }
+
 }
