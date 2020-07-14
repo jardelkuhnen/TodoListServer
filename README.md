@@ -20,5 +20,5 @@ A project to improve de knologe of Java and Angular.
   
   
   # 📦 Deploy
-   In this repo, is the backend code. To run locale, go to https://github.com/jardelkuhnen/TodoListClient to get the frontend code.
+   In this repository, is the backend code. To run locale, go to https://github.com/jardelkuhnen/TodoListClient to get the frontend code.
    
